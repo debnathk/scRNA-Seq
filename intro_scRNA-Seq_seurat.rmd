@@ -1,0 +1,47 @@
+---
+title: "Introduction to scRNA-Seq and Seurat"
+output:
+  html_document:
+    df_print: paged
+  html_notebook: default
+  pdf_document: default
+---
+
+## Basic Terminologies
+
+- **UMI** = Unique Molecular Identifiers, molecular tags that can be applied to detect and quantify the unique transcripts
+- **Features** = genes
+- **barcodes** = Single-cell sequencing experiments use short DNA barcodes 'tags' to identify reads that originate from the same cell (unique to each cell)
+- **Count matrix/feature-barcode matrix/gene-barcode matrix** = A matrix of counts representing the number of unique observations of each feature within each cell barcode
+- **doublets** = when two cells are encapsulated into one reaction volume
+
+
+## Input file formats
+
+- 10x hdf5(.hdf5)
+- R data format(.rds)
+- AnnData object(.h5ad)
+- Loom(.loom)
+- text based Market Exchange Format(MEX)(.mtx)
+
+## Set working directory
+```{r message=FALSE, warning=FALSE}
+setwd("C:/Users/Bumba/Desktop/STUDY/phd@vcu/scRNA-Seq")
+```
+
+## Libraries
+```{r message=FALSE, warning=FALSE}
+library(pacman)
+p_load(Seurat, SeuratDisk, hdf5r)
+```
+
+## Reading files
+### .rds file
+```{r message=FALSE, warning=FALSE}
+
+```
+
+### .hdf5 file
+```{r message=FALSE, warning=FALSE}
+hdf5_object <- Read10X_h5(filename = 'data/20k_PBMC_3p_HT_nextgem_Chromium_X_filtered_feature_bc_matrix.h5')
+```
