@@ -22,4 +22,16 @@ plot1 + plot2
 
 pbmc <- subset(pbmc, subset = nFeature_RNA > 200 & nFeature_RNA < 2500 & percent.mt < 5)
 
-# Normalizing the data
+# Normalizing the data (Using LogNormalize method)
+
+pbmc <- NormalizeData(pbmc)
+
+# Feature selection
+
+
+
+# Scaling the data
+
+# Linear Dimension Reduction
+
+# 
