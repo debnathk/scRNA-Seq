@@ -28,9 +28,19 @@ pbmc <- NormalizeData(pbmc)
 
 # Feature selection
 
+pbmc <- FindVariableFeatures(pbmc, selection.method = "vst", nfeatures = 2000)
 
+## Identify top 10 most highly variable genes
+top10 <- head(VariableFeatures(pbmc), 10)
+
+## Plot variable features with and without features
+plot1 <- VariableFeaturePlot(pbmc)
+plot2 <- LabelPoints(plot = plot1, points = top10, repel = T)
+plot1 + plot2
 
 # Scaling the data
+all.genes <- rownames(pbmc)
+pbmc <- ScaleData(pbmc, features = all.genes)
 
 # Linear Dimension Reduction
 
