@@ -52,6 +52,10 @@ DimPlot(pbmc, reduction = "pca")
 DimHeatmap(pbmc, dims = 1, cells = 500, balanced = TRUE)
 
 # Determining the dimensionality of the dataset
+pbmc <- JackStraw(pbmc, num.replicate = 100)
+pbmc <- ScoreJackStraw(pbmc, dims = 1:20)
+JackStrawPlot(pbmc, dims = 1:15)
+ElbowPlot(pbmc)
 
 # Cluster the cells
 
