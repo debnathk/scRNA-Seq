@@ -58,6 +58,10 @@ JackStrawPlot(pbmc, dims = 1:15)
 ElbowPlot(pbmc)
 
 # Cluster the cells
+pbmc <- FindNeighbors(pbmc, dims = 1:10)
+pbmc <- FindClusters(pbmc, resolution = 0.5)
+
+head(Idents(pbmc), 5)
 
 # Non-Linear dimensional reduction (UMAP/tSNE)
 
