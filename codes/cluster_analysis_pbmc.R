@@ -42,6 +42,21 @@ plot1 + plot2
 all.genes <- rownames(pbmc)
 pbmc <- ScaleData(pbmc, features = all.genes)
 
-# Linear Dimension Reduction
+# Linear Dimension Reduction (PCA)
+pbmc <- RunPCA(pbmc, features = VariableFeatures(object = pbmc))
 
-# 
+VizDimLoadings(pbmc, dims = 1:2, reduction = "pca")
+
+DimPlot(pbmc, reduction = "pca")
+
+DimHeatmap(pbmc, dims = 1, cells = 500, balanced = TRUE)
+
+# Determining the dimensionality of the dataset
+
+# Cluster the cells
+
+# Non-Linear dimensional reduction (UMAP/tSNE)
+
+# Finding differentially expressed features (cluster biomarkers)
+
+# Assigning cell type identity to clusters
