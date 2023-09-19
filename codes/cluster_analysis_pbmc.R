@@ -89,6 +89,6 @@ pbmc.markers %>%
 cluster0.markers <- FindMarkers(pbmc, ident.1 = 0, logfc.threshold = 0.25, test.use = "roc", only.pos = TRUE)
 head(cluster0.markers, n = 5)
 
-# VlnPlot(pbmc.markers, features = c("RPS12, RPS6"))
+## VlnPlot(pbmc.markers, features = c("RPS12, RPS6"))
 
 # Assigning cell type identity to clusters
