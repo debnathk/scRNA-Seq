@@ -64,6 +64,12 @@ pbmc <- FindClusters(pbmc, resolution = 0.5)
 head(Idents(pbmc), 5)
 
 # Non-Linear dimensional reduction (UMAP/tSNE)
+pbmc <- RunUMAP(pbmc, dims =  1:10)
+DimPlot(pbmc, reduction = "umap")
+
+## Saving the object
+saveRDS(pbmc, file = "pbmc_tutorial.rds")
+
 
 # Finding differentially expressed features (cluster biomarkers)
 
