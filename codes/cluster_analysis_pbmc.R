@@ -70,7 +70,25 @@ DimPlot(pbmc, reduction = "umap")
 ## Saving the object
 saveRDS(pbmc, file = "pbmc_tutorial.rds")
 
-
 # Finding differentially expressed features (cluster biomarkers)
+
+## find all marker of cluster 2
+cluster2.markers <- FindMarkers(pbmc, ident.1 = 2, min.pct = 0.25)
+head(cluster2.markers, n = 5)
+
+## find all clusters distinguishing cluster 5 from clusters 0 and 3
+cluster5.markers <- FindMarkers(pbmc, ident.1 = 5, ident.2 = c(0, 3), min.pct = 0.25)
+head(cluster5.markers, n = 5)
+
+## find markers for every cluster compared to all remaining cells, report only the positive ones
+pbmc.markers <- FindAllMarkers(pbmc, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
+pbmc.markers %>% 
+  group_by(cluster) %>%
+  slice_max(n = 2, order_by = avg_log2FC)
+
+cluster0.markers <- FindMarkers(pbmc, ident.1 = 0, logfc.threshold = 0.25, test.use = "roc", only.pos = TRUE)
+head(cluster0.markers, n = 5)
+
+# VlnPlot(pbmc.markers, features = c("RPS12, RPS6"))
 
 # Assigning cell type identity to clusters
