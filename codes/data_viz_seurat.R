@@ -54,6 +54,27 @@ DoHeatmap(subset(pbmc3k.final, downsample = 100), features = features, size = 3)
 
 
 
+# Updated and expanded visualization functions
+# Violin plots can also be split on some variable, by adding the splitting variable
+# to object metadata and pass it to the split.by argument
+VlnPlot(pbmc3k.final, features = "percent.mt", split.by = "groups")
+
+# Dot plot with split by groups
+DotPlot(pbmc3k.final, features = features, split.by = "groups") + RotatedAxis()
+
+# Dimplot replaces TSNEplot, PCAplot - it will plot umap, tsne or pca by default 
+# in that order
+DimPlot(pbmc3k.final)
+# Plotting PCA by nullifying UMAP
+pbmc3k.final.no.umap <- pbmc3k.final
+pbmc3k.final.no.umap[['umap']] <- NULL
+DimPlot(pbmc3k.final.no.umap) + RotatedAxis()
+
+#DoHeatMap with a grouping bar, splitting the heatmap into groups or clusters
+DoHeatmap(pbmc3k.final, features = VariableFeatures(pbmc3k.final)[1:100], 
+          cells = 1:500, size = 4, angle = 90) + NoLegend()
+
+
 
 
 
