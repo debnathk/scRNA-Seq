@@ -75,7 +75,42 @@ DoHeatmap(pbmc3k.final, features = VariableFeatures(pbmc3k.final)[1:100],
           cells = 1:500, size = 4, angle = 90) + NoLegend()
 
 
+# Applying themes to plots
+baseplot <- DimPlot(pbmc3k.final, reduction = "umap")
+# Add custom labels and titles
+baseplot + labs(title = "Clustering of 2,700 PBMCs")
 
 
+# Use community-created themes, overwriting the default Seurat-applied theme
+remotes::install_github('sjessa/ggmin')
+baseplot + ggmin::theme_powerpoint()
+
+# Dark theme provided by Seurat
+baseplot + DarkTheme()
+
+# Chaining themes together
+baseplot + FontSize(x.title = 20, y.title = 20) + NoLegend()
 
 
+# Interactive plotting features
+# Include additional data to display alongside cell names by passing in a dataframe
+# of information. Works well when using FetchData
+plot <- FeaturePlot(pbmc3k.final, features = "MS4A1")
+HoverLocator(plot = plot, information = FetchData(pbmc3k.final,
+  vars = c("ident", "PC_1", "nFeature_RNA")))
+
+# CellSelector() - to manually select cells for further investigation
+# Here, let assume that DC are merged with monocytes in the clustering,
+# but we want to see what was unique about them based on their position in the
+# tSNE plot
+pbmc3k.final <- RenameIdents(pbmc3k.final, DC = "CD4+ Mono")
+plot <- DimPlot(pbmc3k.final, reduction = "umap")
+select.cells <- CellSelector(plot = plot)
+# We can change the identity of the cells to turn them into their own minicluster
+head(select.cells)
+Idents(pbmc3k.final, cells = select.cells) <- "NewCells"
+# Now, we find markers that are specific to the new cells, and find clear DC markers
+newcells.markers <- FindMarkers(pbmc3k.final, ident.1 = "NewCells",
+                                ident.2 = "CD4+ Mono", min.diff.pct = 0.3,
+                                only.pos = TRUE)
+head(newcells.markers)
