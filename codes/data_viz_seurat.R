@@ -114,3 +114,23 @@ newcells.markers <- FindMarkers(pbmc3k.final, ident.1 = "NewCells",
                                 ident.2 = "CD4+ Mono", min.diff.pct = 0.3,
                                 only.pos = TRUE)
 head(newcells.markers)
+
+# Plotting accessories - for manipulating and combining plots
+# LabelClusters and LabelPoints will label clusters (a coloring variable) or
+# individual points on a ggplot2-based scatter plot
+plot <- DimPlot(pbmc3k.final, reduction = "pca") + NoLegend()
+LabelClusters(plot = plot, id = "ident")
+
+# Both functions support 'repel', which will intelligently stagger labels and draw
+# connecting lines from the labels to the points or clusters
+LabelPoints(plot = plot, points = TopCells(object = pbmc3k.final[['pca']]),
+            repel = TRUE)
+
+# Combining different types of plots
+plot1 <- DimPlot(pbmc3k.final)
+# Create scatter plot as the Peasrson Correlation value as the title
+plot2 <- FeatureScatter(pbmc3k.final, feature1 = "LYZ", feature2 = "CCL5")
+# Combining the plots
+plot1 + plot2
+
+# 
