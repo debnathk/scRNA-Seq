@@ -128,9 +128,7 @@ LabelPoints(plot = plot, points = TopCells(object = pbmc3k.final[['pca']]),
 
 # Combining different types of plots
 plot1 <- DimPlot(pbmc3k.final)
-# Create scatter plot as the Peasrson Correlation value as the title
+# Create scatter plot as the Pearson Correlation value as the title
 plot2 <- FeatureScatter(pbmc3k.final, feature1 = "LYZ", feature2 = "CCL5")
 # Combining the plots
 plot1 + plot2
-
-# 
