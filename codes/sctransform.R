@@ -24,3 +24,11 @@ pbmc <- SCTransform(pbmc, vars.to.regress = "percent.mt", verbose = F)
 
 
 # Perform dimensionality reduction using UMAP and PCA embedding
+# These are now standard steps in the Seurat workflow for visualization and clustering
+pbmc <- RunPCA(pbmc, verbose = F)
+pbmc <- RunUMAP(pbmc, dims = 1:30, verbose = F)
+
+pbmc <- FindNeighbors(pbmc, dims = 1:30, verbose = F)
+pbmc <- FindClusters(pbmc, verbose = F)
+DimPlot(pbmc, label = T)
+
