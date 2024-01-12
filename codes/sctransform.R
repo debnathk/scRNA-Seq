@@ -32,3 +32,14 @@ pbmc <- FindNeighbors(pbmc, dims = 1:30, verbose = F)
 pbmc <- FindClusters(pbmc, verbose = F)
 DimPlot(pbmc, label = T)
 
+# Visualize canonical marker genes as violin plots.
+VlnPlot(pbmc, features = c("CD8A", "GZMK", "CCL5", "S100A4", "ANXA1", "CCR7", "ISG15", "CD3D"),
+        pt.size = 0.2, ncol = 4)
+
+# Visualize canonical marker genes on the sctransform embedding.
+FeaturePlot(pbmc, features = c("CD8A", "GZMK", "CCL5", "S100A4", "ANXA1", "CCR7"),
+        pt.size = 0.2, ncol = 3)
+FeaturePlot(pbmc, features = c("CD3D", "ISG15", "TCL1A", "FCER2", "XCL1", "FCGR3A"), pt.size = 0.2,
+            ncol = 3)
+
+
