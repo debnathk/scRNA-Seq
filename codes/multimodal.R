@@ -5,8 +5,8 @@
 # dancing together in a sensational performance of multimodal analysis.
 # It's not just science; it's a cellular carnival of discovery! 🧬🎉 #GenomicsParty
 
-# Example: CITE-seq enables simultaneous measurement of transcriptomes and cell-surface proteins
-# from the same cell.
+# Example: CITE-seq enables simultaneous measurement of transcriptomes and cell-surface
+# proteins from the same cell.
 
 # Cell Hashing is a groundbreaking technique that tackles challenges in single-cell
 # genomics head-on! Imagine using special oligo-tagged antibodies that act like
