@@ -42,3 +42,50 @@ cbmc.adt <- as.sparse(read.csv(file = "C:/Users/debnathk/Desktop/study/scRNA-Seq
 # column names
 all.equal(colnames(cbmc.rna), colnames(cbmc.adt))
 
+
+# Setup a Seurat object, add the RNA and protein data
+# creates a Seurat object based on the scRNA-seq data
+cbmc <- CreateSeuratObject(counts = cbmc.rna)
+
+# We can see that by default, the cbmc object contains an assay storing RNA measurement
+Assays(cbmc)
+
+# create a new assay to store ADT information
+adt_assay <- CreateAssay5Object(counts = cbmc.adt)
+
+# add this assay to the previously created Seurat object
+cbmc[["ADT"]] <- adt_assay
+
+# Validate that the object now contains multiple assays
+Assays(cbmc)
+
+# Cluster cells on the basis of their scRNA-seq profiles
+# perform visualization and clustering steps
+cbmc <- NormalizeData(cbmc)
+cbmc <- FindVariableFeatures(cbmc)
+cbmc <- ScaleData(cbmc)
+cbmc <- RunPCA(cbmc, verbose = F)
+cbmc <- FindNeighbors(cbmc, dims = 1:30)
+cbmc <- FindClusters(cbmc, resolution = 0.8, verbose = F)
+cbmc <- RunUMAP(cbmc, dims = 1:30)
+DimPlot(cbmc, label = T)
+
+
+# Visualize multiple modalities side-by-side
+# Normalize ADT data,
+cbmc <- NormalizeData(cbmc, normalization.method = 'CLR', margin = 2, assay = 'ADT')
+
+# Now, we will visualize CD19 levels for RNA and protein By setting the default assay, we can
+# visualize one or the other
+DefaultAssay(cbmc) <- 'ADT'
+p1 <- FeaturePlot(cbmc, "CD19", cols = c('lightgreen', 'darkgreen')) + ggtitle("CD19 protein")
+DefaultAssay(cbmc) <- 'RNA'
+p2 <- FeaturePlot(cbmc, "CD19") + ggtitle("CD19 RNA")
+
+# Show plots side-by-side
+p1 | p2
+
+# Alternate way - using Assay key
+p1 <- FeaturePlot(cbmc, 'adt_CD19', cols = c("lightgreen", "darkgreen")) + ggtitle("CD19 protein")
+p2 <- FeaturePlot(cbmc, 'rna_CD19') + ggtitle("CD19 RNA")
+p1 | p2
