@@ -8,7 +8,7 @@ library("DOSE")
 setwd("C:/Users/debnathk/Desktop/study/scRNA-Seq/Volcano_data/Volcano_sig")
 
 # Read in the rank_table as a csv
-rank_table <- read.csv("mSLA_PT_downsig.csv")
+rank_table <- read.csv("merged_upsig.csv")
 
 # Sort the table by adjusted pvalue
 rank_table <- rank_table %>% arrange((padj))
@@ -23,16 +23,16 @@ eg = bitr(rank_table$Gene.names, fromType="SYMBOL", toType="ENTREZID", OrgDb="or
 # Run enrichGO for overrepresented pathways test. 
 ego <- enrichGO(gene          = eg$ENTREZID,
                 OrgDb = "org.Rn.eg.db",
-                ont           = "BP",
+                ont           = "MF",
                 pAdjustMethod = "BH",
                 pvalueCutoff  = 0.01,
                 qvalueCutoff  = 0.05,
                 readable      = TRUE)
 
 # Create the figure
-overrepresented_figure <- barplot(ego, showCategory=10, title = "Overrepresented GO BPs in mSLA_PT")
+overrepresented_figure <- barplot(ego, showCategory=10, title = "Overrepresented GO MFs in merged_upsig")
 
 # Save figure
-ggsave("test_figure.png", plot = overrepresented_figure, width = 10, height = 6, units = "in", dpi = 300)
+ggsave("../results/merged_upsig_overrepresented_MF_figure.png", plot = overrepresented_figure, width = 10, height = 6, units = "in", dpi = 1000)
 
 
