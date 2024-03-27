@@ -1,8 +1,10 @@
 
 # INPUT: input file, score, reset value, percent to keep
 rm -r intermediate_outputs
-rm ../miRsig_pipeline/Consensus_Alcohol_Dataset/Consensus_algos/consensus.txt
+# rm ../miRsig_pipeline/Consensus_Alcohol_Dataset/Consensus_algos/consensus.txt
 rm -r other_files
+
+Rscript -e "install.packages('igraph', repos='https://cloud.r-project.org/')"
 
 mkdir intermediate_outputs
 mkdir other_files
