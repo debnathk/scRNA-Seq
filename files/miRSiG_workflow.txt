@@ -1,0 +1,6 @@
+Step n:
+    Script: ./script.sh test.tsv 1 0.9 0.05 0.9
+    TODO: Prepare edgelist 
+Step n:
+    Script: graph_viz.R
+    TODO: Create the graph from the prepared edgelist 
