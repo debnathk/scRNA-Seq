@@ -1,15 +1,15 @@
 rm(list = ls())
-BiocManager::install("fgsea")
-BiocManager::install("clusterProfiler")
-BiocManager::install("org.Rn.eg.db")
+# BiocManager::install("fgsea")
+# BiocManager::install("clusterProfiler")
+# BiocManager::install("org.Rn.eg.db")
 library(fgsea)
 library(dplyr)
 library(ggplot2)
 library(clusterProfiler)
 library("DOSE")
-setwd("C:/Users/debnathk/Desktop/study/scRNA-Seq/Volcano_data/Volcano_sig")
+setwd("C:/Users/debnathk/Desktop/study/scRNA-Seq/data/")
 
-files = list.files(pattern = "\\.csv$")
+files = list.files(pattern = "\\goi.csv$")
 
 for (file in files) {
   # Read in the rank_table as a csv
@@ -28,20 +28,29 @@ for (file in files) {
     eg = bitr(rank_table$Gene.names, fromType="SYMBOL", toType="ENTREZID", OrgDb="org.Rn.eg.db")
     
     # Run enrichGO for overrepresented pathways test. 
-    ego <- enrichGO(gene          = eg$ENTREZID,
-                    OrgDb = "org.Rn.eg.db",
-                    ont           = "MF",
-                    pAdjustMethod = "BH",
-                    pvalueCutoff  = 0.01,
-                    qvalueCutoff  = 0.05,
-                    readable      = TRUE)
+    # ego <- enrichGO(gene          = eg$ENTREZID,
+    #                 OrgDb = "org.Rn.eg.db",
+    #                 ont           = "BP",
+    #                 pAdjustMethod = "BH",
+    #                 pvalueCutoff  = 0.01,
+    #                 qvalueCutoff  = 0.05,
+    #                 readable      = TRUE)
     
-    # Create the figure 
+    # Perform KEGG pathway enrichment analysis
+    kegg_enrichment <- enrichKEGG(gene = eg$ENTREZID, organism = "rat")
+    
+    # Filter for bone-specific pathways
+    bone_specific_pathways <- subset(kegg_enrichment, grepl("bone|skeletal", Description, ignore.case = TRUE))
+    
+    # View bone-specific pathways
+    print(bone_specific_pathways)
+    
+    # Create the figure
     file_sub = sub(".csv", "", file)
-    overrepresented_figure <- barplot(ego, showCategory=10, title = paste("Overrepresented GO MFs in ", file_sub, sep = ""))
-    
+    overrepresented_figure <- barplot(ego, showCategory=10, title = paste("Overrepresented KEGG BPs in ", file_sub, sep = ""))
+
     # Save figure
-    file_name <- paste("../results/", file_sub, "_overrepresented_MF_figure.png", sep = "")
+    file_name <- paste("../results/", file_sub, "_KEGG_BP_figure.png", sep = "")
     ggsave(file_name, plot = overrepresented_figure, width = 10, height = 6, units = "in", dpi = 300)
     
   }, error = function(e) {

@@ -8,7 +8,7 @@ files = list.files(pattern = "\\_final.tsv")
 for (file in files){
   network_graph <- read.csv(file, sep = "\t", header = FALSE)
   colnames(network_graph) <- c("Edge1", "Edge2", "Weight")
-  processed_graph <- network_graph %>% filter(Weight > 0.975)
+  processed_graph <- network_graph %>% filter(Weight > 0.9)
   
   edge_list <- processed_graph %>% select(Edge1, Edge2)
   
@@ -17,7 +17,7 @@ for (file in files){
   
   # Saves the plot
   file_sub = sub(".tsv", "", file)
-  plot_name = paste("D:/scRNA-Seq_data/final_schwartz_networks/", file_sub, "_0975.png", sep = "")
+  plot_name = paste("D:/scRNA-Seq_data/final_schwartz_networks/", file_sub, "_09.png", sep = "")
   png(plot_name, width = 4800, height = 3200)
   # Creates the plot
   plot(igraph_obj, edge.arrow.size=.5, vertex.color="gold", vertex.size=3,
@@ -32,6 +32,6 @@ for (file in files){
   sorted_degree <- degrees %>% arrange(desc(degree))
   degree_file_sub = sub(".tsv", "", file)
   degree_file_name = paste("D:/scRNA-Seq_data/final_schwartz_networks/sorted_degrees_",
-                           file_sub, "_0975.csv", sep = "")
+                           file_sub, "_09.csv", sep = "")
   write.csv(sorted_degree, degree_file_name)
 }
