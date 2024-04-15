@@ -36,14 +36,14 @@ for (nw_file in network_files){
                                     node_colors[match(V(igraph_obj)$name, top_5_nodes)], "gold")
       # Set the size of the top nodes to 10
       deg <- degree(igraph_obj, mode="all")
-      V(igraph_obj)$size <- ifelse(V(igraph_obj)$name %in% top_5_nodes, deg/10, 2)
+      V(igraph_obj)$size <- ifelse(V(igraph_obj)$name %in% top_5_nodes, deg/10, 5)
       
       # Saves the plot
       file_sub <- sub(".tsv", "", nw_file)
       plot_name <- paste("D:/scRNA-Seq_data/final_schwartz_networks/", file_sub, "_top_5.png", sep = "")
       png(plot_name, width = 4800, height = 3200)
       # Creates the plot
-      plot(igraph_obj, edge.arrow.size=.3, vertex.label.cex=4,
+      plot(igraph_obj, edge.arrow.size=.3, vertex.label.cex=8, vertex.label.dist=1,
            vertex.frame.color="black")
       # Create legend for top 5 nodes with their names
       # legend("topright", legend = top_5_nodes, fill = node_colors, title = "Top Nodes", cex = 1)
